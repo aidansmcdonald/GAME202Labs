@@ -163,17 +163,27 @@ void DrawScreen()
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_RenderFillRect(renderer, &background);
 
-	// Colors Paddles
-	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+	// Colors PlayerPaddle
+	SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
 	SDL_RenderFillRect(renderer, &PlayerPaddle);
+
+	// Color AIPaddle
+	SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
 	SDL_RenderFillRect(renderer, &AIPaddle);
 
 	// Colors Ball
-	SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+	int ValueR;
+	int ValueG;
+	int ValueB;
+	ValueR = rand() % 255;
+	ValueG = rand() % 255;
+	ValueB = rand() % 255;
+
+	SDL_SetRenderDrawColor(renderer, ValueR, ValueG, ValueB, 255); 
 	SDL_RenderFillRect(renderer, &Ball);
 
 	// Colors HalfLine
-	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+	SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
 	SDL_RenderFillRect(renderer, &HalfLine);
 
 	// Display final drawing
