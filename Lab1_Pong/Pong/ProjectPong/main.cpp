@@ -10,6 +10,8 @@ Date: 1/13/20
 // include SDL functions and datatypes for the program to use
 #include "SDL.h"
 
+#include <cstdlib>
+
 // Initializing the attributes of the screen/window
 #define WINDOW_WIDTH	800
 #define WINDOW_HEIGHT	600
@@ -22,6 +24,9 @@ SDL_Event event;
 
 // Mouse coordinates;
 int mouse_x, mouse_y;
+
+int speed_x, speed_y;
+int direction[2] = { -1, 1 };
 
 // Initialize game status to on
 bool running = true;
@@ -79,6 +84,9 @@ void LoadGame()
 	HalfLine.y = 0;
 	HalfLine.w = 10;
 	HalfLine.h = 600;
+
+	speed_x = -1;
+	speed_y = -1;
 }
 
 /*
@@ -118,8 +126,26 @@ void Update()
 {
 	PlayerPaddle.y = mouse_y;
 
-	Ball.x += 1;
-	Ball.y += 1;
+	Ball.x += speed_x;
+	Ball.y += speed_y;
+
+	//ball goes out on sides, left and right
+	//reset to centre of screen
+	if (Ball.x < 0 || Ball.x > WINDOW_WIDTH)
+	{
+		Ball.x = WINDOW_WIDTH / 2;
+		Ball.y = WINDOW_WIDTH / 2;
+		//this expression produces random numbers -1,-2, 1 and 2
+		speed_x = (rand() % 2 + 1) * direction[rand() % 2];
+		speed_y = (rand() % 2 + 1) * direction[rand() % 2];
+	}
+
+	if (Ball.y < 0 || Ball.y > (WINDOW_HEIGHT - Ball.h))
+	{
+		speed_y = -speed_y;
+	}
+	
+	AIPaddle.y = Ball.y - AIPaddle.h / 2 + Ball.h / 2;
 
 	SDL_Delay(10);
 }
